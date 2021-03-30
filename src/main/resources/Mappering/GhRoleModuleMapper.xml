@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.guihe.Mapper.GhRoleModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.web.guihe.Entity.GhRoleModule" >
+    <id column="b_id" property="bId" jdbcType="INTEGER" />
+    <result column="b_r_id" property="bRId" jdbcType="INTEGER" />
+    <result column="b_m_id" property="bMId" jdbcType="INTEGER" />
+    <result column="b_b1" property="bB1" jdbcType="VARCHAR" />
+    <result column="b_b2" property="bB2" jdbcType="VARCHAR" />
+    <result column="b_b3" property="bB3" jdbcType="VARCHAR" />
+    <result column="b_b4" property="bB4" jdbcType="INTEGER" />
+    <result column="b_b5" property="bB5" jdbcType="INTEGER" />
+    <result column="b_b6" property="bB6" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    b_id, b_r_id, b_m_id, b_b1, b_b2, b_b3, b_b4, b_b5, b_b6
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.guihe.Entity.GhRoleModuleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gh_role_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gh_role_module
+    where b_id = #{bId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gh_role_module
+    where b_id = #{bId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.guihe.Entity.GhRoleModuleExample" >
+    delete from gh_role_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.guihe.Entity.GhRoleModule" >
+    insert into gh_role_module (b_id, b_r_id, b_m_id, 
+      b_b1, b_b2, b_b3, b_b4, 
+      b_b5, b_b6)
+    values (#{bId,jdbcType=INTEGER}, #{bRId,jdbcType=INTEGER}, #{bMId,jdbcType=INTEGER}, 
+      #{bB1,jdbcType=VARCHAR}, #{bB2,jdbcType=VARCHAR}, #{bB3,jdbcType=VARCHAR}, #{bB4,jdbcType=INTEGER}, 
+      #{bB5,jdbcType=INTEGER}, #{bB6,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.guihe.Entity.GhRoleModule" >
+    insert into gh_role_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        b_id,
+      </if>
+      <if test="bRId != null" >
+        b_r_id,
+      </if>
+      <if test="bMId != null" >
+        b_m_id,
+      </if>
+      <if test="bB1 != null" >
+        b_b1,
+      </if>
+      <if test="bB2 != null" >
+        b_b2,
+      </if>
+      <if test="bB3 != null" >
+        b_b3,
+      </if>
+      <if test="bB4 != null" >
+        b_b4,
+      </if>
+      <if test="bB5 != null" >
+        b_b5,
+      </if>
+      <if test="bB6 != null" >
+        b_b6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="bRId != null" >
+        #{bRId,jdbcType=INTEGER},
+      </if>
+      <if test="bMId != null" >
+        #{bMId,jdbcType=INTEGER},
+      </if>
+      <if test="bB1 != null" >
+        #{bB1,jdbcType=VARCHAR},
+      </if>
+      <if test="bB2 != null" >
+        #{bB2,jdbcType=VARCHAR},
+      </if>
+      <if test="bB3 != null" >
+        #{bB3,jdbcType=VARCHAR},
+      </if>
+      <if test="bB4 != null" >
+        #{bB4,jdbcType=INTEGER},
+      </if>
+      <if test="bB5 != null" >
+        #{bB5,jdbcType=INTEGER},
+      </if>
+      <if test="bB6 != null" >
+        #{bB6,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.guihe.Entity.GhRoleModuleExample" resultType="java.lang.Integer" >
+    select count(*) from gh_role_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gh_role_module
+    <set >
+      <if test="record.bId != null" >
+        b_id = #{record.bId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bRId != null" >
+        b_r_id = #{record.bRId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bMId != null" >
+        b_m_id = #{record.bMId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bB1 != null" >
+        b_b1 = #{record.bB1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bB2 != null" >
+        b_b2 = #{record.bB2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bB3 != null" >
+        b_b3 = #{record.bB3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bB4 != null" >
+        b_b4 = #{record.bB4,jdbcType=INTEGER},
+      </if>
+      <if test="record.bB5 != null" >
+        b_b5 = #{record.bB5,jdbcType=INTEGER},
+      </if>
+      <if test="record.bB6 != null" >
+        b_b6 = #{record.bB6,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gh_role_module
+    set b_id = #{record.bId,jdbcType=INTEGER},
+      b_r_id = #{record.bRId,jdbcType=INTEGER},
+      b_m_id = #{record.bMId,jdbcType=INTEGER},
+      b_b1 = #{record.bB1,jdbcType=VARCHAR},
+      b_b2 = #{record.bB2,jdbcType=VARCHAR},
+      b_b3 = #{record.bB3,jdbcType=VARCHAR},
+      b_b4 = #{record.bB4,jdbcType=INTEGER},
+      b_b5 = #{record.bB5,jdbcType=INTEGER},
+      b_b6 = #{record.bB6,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.guihe.Entity.GhRoleModule" >
+    update gh_role_module
+    <set >
+      <if test="bRId != null" >
+        b_r_id = #{bRId,jdbcType=INTEGER},
+      </if>
+      <if test="bMId != null" >
+        b_m_id = #{bMId,jdbcType=INTEGER},
+      </if>
+      <if test="bB1 != null" >
+        b_b1 = #{bB1,jdbcType=VARCHAR},
+      </if>
+      <if test="bB2 != null" >
+        b_b2 = #{bB2,jdbcType=VARCHAR},
+      </if>
+      <if test="bB3 != null" >
+        b_b3 = #{bB3,jdbcType=VARCHAR},
+      </if>
+      <if test="bB4 != null" >
+        b_b4 = #{bB4,jdbcType=INTEGER},
+      </if>
+      <if test="bB5 != null" >
+        b_b5 = #{bB5,jdbcType=INTEGER},
+      </if>
+      <if test="bB6 != null" >
+        b_b6 = #{bB6,jdbcType=INTEGER},
+      </if>
+    </set>
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.guihe.Entity.GhRoleModule" >
+    update gh_role_module
+    set b_r_id = #{bRId,jdbcType=INTEGER},
+      b_m_id = #{bMId,jdbcType=INTEGER},
+      b_b1 = #{bB1,jdbcType=VARCHAR},
+      b_b2 = #{bB2,jdbcType=VARCHAR},
+      b_b3 = #{bB3,jdbcType=VARCHAR},
+      b_b4 = #{bB4,jdbcType=INTEGER},
+      b_b5 = #{bB5,jdbcType=INTEGER},
+      b_b6 = #{bB6,jdbcType=INTEGER}
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+</mapper>

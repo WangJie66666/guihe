@@ -1,0 +1,60 @@
+server:
+  port: 8080
+management:
+  endpoints.shutdown.enabled: true
+  endpoints.shutdown.sensitive: false
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    servlet:
+      content-type: text/html
+    mode: LEGACYHTML5
+  datasource:
+    name: guihe
+    url: jdbc:mysql://127.0.0.1:3306/guihe?useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: wj.1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      filters: stat
+      max-active: 20
+      initial-size: 1
+      max-wait: 6000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: wj.1234
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+mybatis:
+  mapper-locations: classpath:mappering/*.xml
+  type-aliases-package: com.web.guihe.Entity
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+logging:
+  level:
+    com.web.guihe: DEBUG
+  file:
+    name: D:\java\log\core.log

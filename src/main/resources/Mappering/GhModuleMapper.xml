@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.guihe.Mapper.GhModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.web.guihe.Entity.GhModule" >
+    <id column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="m_icon" property="mIcon" jdbcType="VARCHAR" />
+    <result column="m_title" property="mTitle" jdbcType="VARCHAR" />
+    <result column="m_index" property="mIndex" jdbcType="VARCHAR" />
+    <result column="m_subs" property="mSubs" jdbcType="VARCHAR" />
+    <result column="m_father" property="mFather" jdbcType="VARCHAR" />
+    <result column="m_child" property="mChild" jdbcType="VARCHAR" />
+    <result column="m_sun" property="mSun" jdbcType="VARCHAR" />
+    <result column="m_b1" property="mB1" jdbcType="VARCHAR" />
+    <result column="m_b2" property="mB2" jdbcType="VARCHAR" />
+    <result column="m_b3" property="mB3" jdbcType="VARCHAR" />
+    <result column="m_b4" property="mB4" jdbcType="INTEGER" />
+    <result column="m_b5" property="mB5" jdbcType="INTEGER" />
+    <result column="m_b6" property="mB6" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    m_id, m_icon, m_title, m_index, m_subs, m_father, m_child, m_sun, m_b1, m_b2, m_b3, 
+    m_b4, m_b5, m_b6
+  </sql>
+
+  <!-- 根据角色id查找模板 -->
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    FROM gh_role
+    INNER JOIN gh_role_module ON gh_role.r_id = gh_role_module.b_r_id
+    INNER JOIN gh_module ON gh_role_module.b_m_id = gh_module.m_id
+    WHERE gh_role.r_id = #{rId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.guihe.Entity.GhModuleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gh_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gh_module
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gh_module
+    where m_id = #{mId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.guihe.Entity.GhModuleExample" >
+    delete from gh_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.guihe.Entity.GhModule" >
+    insert into gh_module (m_id, m_icon, m_title, 
+      m_index, m_subs, m_father, 
+      m_child, m_sun, m_b1, 
+      m_b2, m_b3, m_b4, m_b5, 
+      m_b6)
+    values (#{mId,jdbcType=INTEGER}, #{mIcon,jdbcType=VARCHAR}, #{mTitle,jdbcType=VARCHAR}, 
+      #{mIndex,jdbcType=VARCHAR}, #{mSubs,jdbcType=VARCHAR}, #{mFather,jdbcType=VARCHAR}, 
+      #{mChild,jdbcType=VARCHAR}, #{mSun,jdbcType=VARCHAR}, #{mB1,jdbcType=VARCHAR}, 
+      #{mB2,jdbcType=VARCHAR}, #{mB3,jdbcType=VARCHAR}, #{mB4,jdbcType=INTEGER}, #{mB5,jdbcType=INTEGER}, 
+      #{mB6,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.guihe.Entity.GhModule" >
+    insert into gh_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
+        m_id,
+      </if>
+      <if test="mIcon != null" >
+        m_icon,
+      </if>
+      <if test="mTitle != null" >
+        m_title,
+      </if>
+      <if test="mIndex != null" >
+        m_index,
+      </if>
+      <if test="mSubs != null" >
+        m_subs,
+      </if>
+      <if test="mFather != null" >
+        m_father,
+      </if>
+      <if test="mChild != null" >
+        m_child,
+      </if>
+      <if test="mSun != null" >
+        m_sun,
+      </if>
+      <if test="mB1 != null" >
+        m_b1,
+      </if>
+      <if test="mB2 != null" >
+        m_b2,
+      </if>
+      <if test="mB3 != null" >
+        m_b3,
+      </if>
+      <if test="mB4 != null" >
+        m_b4,
+      </if>
+      <if test="mB5 != null" >
+        m_b5,
+      </if>
+      <if test="mB6 != null" >
+        m_b6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="mIcon != null" >
+        #{mIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="mTitle != null" >
+        #{mTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mIndex != null" >
+        #{mIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="mSubs != null" >
+        #{mSubs,jdbcType=VARCHAR},
+      </if>
+      <if test="mFather != null" >
+        #{mFather,jdbcType=VARCHAR},
+      </if>
+      <if test="mChild != null" >
+        #{mChild,jdbcType=VARCHAR},
+      </if>
+      <if test="mSun != null" >
+        #{mSun,jdbcType=VARCHAR},
+      </if>
+      <if test="mB1 != null" >
+        #{mB1,jdbcType=VARCHAR},
+      </if>
+      <if test="mB2 != null" >
+        #{mB2,jdbcType=VARCHAR},
+      </if>
+      <if test="mB3 != null" >
+        #{mB3,jdbcType=VARCHAR},
+      </if>
+      <if test="mB4 != null" >
+        #{mB4,jdbcType=INTEGER},
+      </if>
+      <if test="mB5 != null" >
+        #{mB5,jdbcType=INTEGER},
+      </if>
+      <if test="mB6 != null" >
+        #{mB6,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.guihe.Entity.GhModuleExample" resultType="java.lang.Integer" >
+    select count(*) from gh_module
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gh_module
+    <set >
+      <if test="record.mId != null" >
+        m_id = #{record.mId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mIcon != null" >
+        m_icon = #{record.mIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mTitle != null" >
+        m_title = #{record.mTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mIndex != null" >
+        m_index = #{record.mIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mSubs != null" >
+        m_subs = #{record.mSubs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mFather != null" >
+        m_father = #{record.mFather,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mChild != null" >
+        m_child = #{record.mChild,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mSun != null" >
+        m_sun = #{record.mSun,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mB1 != null" >
+        m_b1 = #{record.mB1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mB2 != null" >
+        m_b2 = #{record.mB2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mB3 != null" >
+        m_b3 = #{record.mB3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mB4 != null" >
+        m_b4 = #{record.mB4,jdbcType=INTEGER},
+      </if>
+      <if test="record.mB5 != null" >
+        m_b5 = #{record.mB5,jdbcType=INTEGER},
+      </if>
+      <if test="record.mB6 != null" >
+        m_b6 = #{record.mB6,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gh_module
+    set m_id = #{record.mId,jdbcType=INTEGER},
+      m_icon = #{record.mIcon,jdbcType=VARCHAR},
+      m_title = #{record.mTitle,jdbcType=VARCHAR},
+      m_index = #{record.mIndex,jdbcType=VARCHAR},
+      m_subs = #{record.mSubs,jdbcType=VARCHAR},
+      m_father = #{record.mFather,jdbcType=VARCHAR},
+      m_child = #{record.mChild,jdbcType=VARCHAR},
+      m_sun = #{record.mSun,jdbcType=VARCHAR},
+      m_b1 = #{record.mB1,jdbcType=VARCHAR},
+      m_b2 = #{record.mB2,jdbcType=VARCHAR},
+      m_b3 = #{record.mB3,jdbcType=VARCHAR},
+      m_b4 = #{record.mB4,jdbcType=INTEGER},
+      m_b5 = #{record.mB5,jdbcType=INTEGER},
+      m_b6 = #{record.mB6,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.guihe.Entity.GhModule" >
+    update gh_module
+    <set >
+      <if test="mIcon != null" >
+        m_icon = #{mIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="mTitle != null" >
+        m_title = #{mTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mIndex != null" >
+        m_index = #{mIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="mSubs != null" >
+        m_subs = #{mSubs,jdbcType=VARCHAR},
+      </if>
+      <if test="mFather != null" >
+        m_father = #{mFather,jdbcType=VARCHAR},
+      </if>
+      <if test="mChild != null" >
+        m_child = #{mChild,jdbcType=VARCHAR},
+      </if>
+      <if test="mSun != null" >
+        m_sun = #{mSun,jdbcType=VARCHAR},
+      </if>
+      <if test="mB1 != null" >
+        m_b1 = #{mB1,jdbcType=VARCHAR},
+      </if>
+      <if test="mB2 != null" >
+        m_b2 = #{mB2,jdbcType=VARCHAR},
+      </if>
+      <if test="mB3 != null" >
+        m_b3 = #{mB3,jdbcType=VARCHAR},
+      </if>
+      <if test="mB4 != null" >
+        m_b4 = #{mB4,jdbcType=INTEGER},
+      </if>
+      <if test="mB5 != null" >
+        m_b5 = #{mB5,jdbcType=INTEGER},
+      </if>
+      <if test="mB6 != null" >
+        m_b6 = #{mB6,jdbcType=INTEGER},
+      </if>
+    </set>
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.guihe.Entity.GhModule" >
+    update gh_module
+    set m_icon = #{mIcon,jdbcType=VARCHAR},
+      m_title = #{mTitle,jdbcType=VARCHAR},
+      m_index = #{mIndex,jdbcType=VARCHAR},
+      m_subs = #{mSubs,jdbcType=VARCHAR},
+      m_father = #{mFather,jdbcType=VARCHAR},
+      m_child = #{mChild,jdbcType=VARCHAR},
+      m_sun = #{mSun,jdbcType=VARCHAR},
+      m_b1 = #{mB1,jdbcType=VARCHAR},
+      m_b2 = #{mB2,jdbcType=VARCHAR},
+      m_b3 = #{mB3,jdbcType=VARCHAR},
+      m_b4 = #{mB4,jdbcType=INTEGER},
+      m_b5 = #{mB5,jdbcType=INTEGER},
+      m_b6 = #{mB6,jdbcType=INTEGER}
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+</mapper>

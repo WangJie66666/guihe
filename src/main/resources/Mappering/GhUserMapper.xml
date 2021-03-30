@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.guihe.Mapper.GhUserMapper" >
+  <resultMap id="BaseResultMap" type="com.web.guihe.Entity.GhUser" >
+    <id column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="u_name" property="uName" jdbcType="VARCHAR" />
+    <result column="u_user" property="uUser" jdbcType="VARCHAR" />
+    <result column="u_pass" property="uPass" jdbcType="VARCHAR" />
+    <result column="u_salt" property="uSalt" jdbcType="VARCHAR" />
+    <result column="u_state" property="uState" jdbcType="INTEGER" />
+    <result column="u_num" property="uNum" jdbcType="INTEGER" />
+    <result column="u_err" property="uErr" jdbcType="INTEGER" />
+    <result column="u_r_id" property="uRId" jdbcType="INTEGER" />
+    <result column="u_b1" property="uB1" jdbcType="VARCHAR" />
+    <result column="u_b2" property="uB2" jdbcType="VARCHAR" />
+    <result column="u_b3" property="uB3" jdbcType="VARCHAR" />
+    <result column="u_b4" property="uB4" jdbcType="INTEGER" />
+    <result column="u_b5" property="uB5" jdbcType="INTEGER" />
+    <result column="u_b6" property="uB6" jdbcType="INTEGER" />
+    <association property="ghRole" javaType="com.web.guihe.Entity.GhRole">
+      <id column="r_id" property="rId"/>
+      <result column="r_name" property="rName"/>
+      <result column="r_remarks" property="rRemarks"/>
+    </association>
+  </resultMap>
+
+  <!-- 根据用户id查找用户信息及其角色 -->
+  <select id="selectUserRoleByuId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select gh_user.*,gh_role.r_id,gh_role.r_name,gh_role.r_remarks from gh_user
+        inner join gh_role on gh_user.u_r_id = gh_role.r_id where gh_user.u_id = #{uId,jdbcType=INTEGER}
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    u_id, u_name, u_user, u_pass, u_salt, u_state, u_num, u_err, u_r_id, u_b1, u_b2, 
+    u_b3, u_b4, u_b5, u_b6
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.guihe.Entity.GhUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gh_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <!-- 根据用户账号查找用户信息 -->
+  <select id="findUserByuUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from gh_user
+    where u_user = #{uUser,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gh_user
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gh_user
+    where u_id = #{uId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.guihe.Entity.GhUserExample" >
+    delete from gh_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.guihe.Entity.GhUser" >
+    insert into gh_user (u_id, u_name, u_user, 
+      u_pass, u_salt, u_state, 
+      u_num, u_err, u_r_id, u_b1, 
+      u_b2, u_b3, u_b4, u_b5, 
+      u_b6)
+    values (#{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{uUser,jdbcType=VARCHAR}, 
+      #{uPass,jdbcType=VARCHAR}, #{uSalt,jdbcType=VARCHAR}, #{uState,jdbcType=INTEGER}, 
+      #{uNum,jdbcType=INTEGER}, #{uErr,jdbcType=INTEGER}, #{uRId,jdbcType=INTEGER}, #{uB1,jdbcType=VARCHAR}, 
+      #{uB2,jdbcType=VARCHAR}, #{uB3,jdbcType=VARCHAR}, #{uB4,jdbcType=INTEGER}, #{uB5,jdbcType=INTEGER}, 
+      #{uB6,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.guihe.Entity.GhUser" >
+    insert into gh_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="uName != null" >
+        u_name,
+      </if>
+      <if test="uUser != null" >
+        u_user,
+      </if>
+      <if test="uPass != null" >
+        u_pass,
+      </if>
+      <if test="uSalt != null" >
+        u_salt,
+      </if>
+      <if test="uState != null" >
+        u_state,
+      </if>
+      <if test="uNum != null" >
+        u_num,
+      </if>
+      <if test="uErr != null" >
+        u_err,
+      </if>
+      <if test="uRId != null" >
+        u_r_id,
+      </if>
+      <if test="uB1 != null" >
+        u_b1,
+      </if>
+      <if test="uB2 != null" >
+        u_b2,
+      </if>
+      <if test="uB3 != null" >
+        u_b3,
+      </if>
+      <if test="uB4 != null" >
+        u_b4,
+      </if>
+      <if test="uB5 != null" >
+        u_b5,
+      </if>
+      <if test="uB6 != null" >
+        u_b6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null" >
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uUser != null" >
+        #{uUser,jdbcType=VARCHAR},
+      </if>
+      <if test="uPass != null" >
+        #{uPass,jdbcType=VARCHAR},
+      </if>
+      <if test="uSalt != null" >
+        #{uSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="uState != null" >
+        #{uState,jdbcType=INTEGER},
+      </if>
+      <if test="uNum != null" >
+        #{uNum,jdbcType=INTEGER},
+      </if>
+      <if test="uErr != null" >
+        #{uErr,jdbcType=INTEGER},
+      </if>
+      <if test="uRId != null" >
+        #{uRId,jdbcType=INTEGER},
+      </if>
+      <if test="uB1 != null" >
+        #{uB1,jdbcType=VARCHAR},
+      </if>
+      <if test="uB2 != null" >
+        #{uB2,jdbcType=VARCHAR},
+      </if>
+      <if test="uB3 != null" >
+        #{uB3,jdbcType=VARCHAR},
+      </if>
+      <if test="uB4 != null" >
+        #{uB4,jdbcType=INTEGER},
+      </if>
+      <if test="uB5 != null" >
+        #{uB5,jdbcType=INTEGER},
+      </if>
+      <if test="uB6 != null" >
+        #{uB6,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.guihe.Entity.GhUserExample" resultType="java.lang.Integer" >
+    select count(*) from gh_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gh_user
+    <set >
+      <if test="record.uId != null" >
+        u_id = #{record.uId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uName != null" >
+        u_name = #{record.uName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uUser != null" >
+        u_user = #{record.uUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uPass != null" >
+        u_pass = #{record.uPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uSalt != null" >
+        u_salt = #{record.uSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uState != null" >
+        u_state = #{record.uState,jdbcType=INTEGER},
+      </if>
+      <if test="record.uNum != null" >
+        u_num = #{record.uNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.uErr != null" >
+        u_err = #{record.uErr,jdbcType=INTEGER},
+      </if>
+      <if test="record.uRId != null" >
+        u_r_id = #{record.uRId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uB1 != null" >
+        u_b1 = #{record.uB1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uB2 != null" >
+        u_b2 = #{record.uB2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uB3 != null" >
+        u_b3 = #{record.uB3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uB4 != null" >
+        u_b4 = #{record.uB4,jdbcType=INTEGER},
+      </if>
+      <if test="record.uB5 != null" >
+        u_b5 = #{record.uB5,jdbcType=INTEGER},
+      </if>
+      <if test="record.uB6 != null" >
+        u_b6 = #{record.uB6,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gh_user
+    set u_id = #{record.uId,jdbcType=INTEGER},
+      u_name = #{record.uName,jdbcType=VARCHAR},
+      u_user = #{record.uUser,jdbcType=VARCHAR},
+      u_pass = #{record.uPass,jdbcType=VARCHAR},
+      u_salt = #{record.uSalt,jdbcType=VARCHAR},
+      u_state = #{record.uState,jdbcType=INTEGER},
+      u_num = #{record.uNum,jdbcType=INTEGER},
+      u_err = #{record.uErr,jdbcType=INTEGER},
+      u_r_id = #{record.uRId,jdbcType=INTEGER},
+      u_b1 = #{record.uB1,jdbcType=VARCHAR},
+      u_b2 = #{record.uB2,jdbcType=VARCHAR},
+      u_b3 = #{record.uB3,jdbcType=VARCHAR},
+      u_b4 = #{record.uB4,jdbcType=INTEGER},
+      u_b5 = #{record.uB5,jdbcType=INTEGER},
+      u_b6 = #{record.uB6,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.guihe.Entity.GhUser" >
+    update gh_user
+    <set >
+      <if test="uName != null" >
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uUser != null" >
+        u_user = #{uUser,jdbcType=VARCHAR},
+      </if>
+      <if test="uPass != null" >
+        u_pass = #{uPass,jdbcType=VARCHAR},
+      </if>
+      <if test="uSalt != null" >
+        u_salt = #{uSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="uState != null" >
+        u_state = #{uState,jdbcType=INTEGER},
+      </if>
+      <if test="uNum != null" >
+        u_num = #{uNum,jdbcType=INTEGER},
+      </if>
+      <if test="uErr != null" >
+        u_err = #{uErr,jdbcType=INTEGER},
+      </if>
+      <if test="uRId != null" >
+        u_r_id = #{uRId,jdbcType=INTEGER},
+      </if>
+      <if test="uB1 != null" >
+        u_b1 = #{uB1,jdbcType=VARCHAR},
+      </if>
+      <if test="uB2 != null" >
+        u_b2 = #{uB2,jdbcType=VARCHAR},
+      </if>
+      <if test="uB3 != null" >
+        u_b3 = #{uB3,jdbcType=VARCHAR},
+      </if>
+      <if test="uB4 != null" >
+        u_b4 = #{uB4,jdbcType=INTEGER},
+      </if>
+      <if test="uB5 != null" >
+        u_b5 = #{uB5,jdbcType=INTEGER},
+      </if>
+      <if test="uB6 != null" >
+        u_b6 = #{uB6,jdbcType=INTEGER},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.guihe.Entity.GhUser" >
+    update gh_user
+    set u_name = #{uName,jdbcType=VARCHAR},
+      u_user = #{uUser,jdbcType=VARCHAR},
+      u_pass = #{uPass,jdbcType=VARCHAR},
+      u_salt = #{uSalt,jdbcType=VARCHAR},
+      u_state = #{uState,jdbcType=INTEGER},
+      u_num = #{uNum,jdbcType=INTEGER},
+      u_err = #{uErr,jdbcType=INTEGER},
+      u_r_id = #{uRId,jdbcType=INTEGER},
+      u_b1 = #{uB1,jdbcType=VARCHAR},
+      u_b2 = #{uB2,jdbcType=VARCHAR},
+      u_b3 = #{uB3,jdbcType=VARCHAR},
+      u_b4 = #{uB4,jdbcType=INTEGER},
+      u_b5 = #{uB5,jdbcType=INTEGER},
+      u_b6 = #{uB6,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+</mapper>
