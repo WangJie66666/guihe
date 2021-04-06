@@ -85,8 +85,6 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/user/login");
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/user/login","anon");
-        filterMap.put("/user/back","anon");
-        filterMap.put("/user/test","anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         Map<String, Filter> filter = new HashMap<>(1);
         filter.put("jwt",new JwtFilter());

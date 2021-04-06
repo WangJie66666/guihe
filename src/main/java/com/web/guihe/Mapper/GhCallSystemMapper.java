@@ -2,9 +2,13 @@ package com.web.guihe.Mapper;
 
 import com.web.guihe.Entity.GhCallSystem;
 import com.web.guihe.Entity.GhCallSystemExample;
+
+import java.util.Calendar;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface GhCallSystemMapper {
     int countByExample(GhCallSystemExample example);
 
@@ -27,4 +31,13 @@ public interface GhCallSystemMapper {
     int updateByPrimaryKeySelective(GhCallSystem record);
 
     int updateByPrimaryKey(GhCallSystem record);
+
+    // 查询呼叫中心组别
+    List<String> selectGroup();
+
+    // 模糊查询号码
+    List<GhCallSystem> selectPhone(String cB1);
+
+    // 批量添加数据
+    void batchAddCallSystem(List<GhCallSystem> list);
 }

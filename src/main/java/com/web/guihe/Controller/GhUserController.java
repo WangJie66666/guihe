@@ -1,29 +1,24 @@
 package com.web.guihe.Controller;
 
 import com.web.guihe.Entity.GhUser;
-import com.web.guihe.Service.GhRoleService;
 import com.web.guihe.Service.GhUserService;
 import com.web.guihe.Util.BasicUtil.ReturnResult;
-import com.web.guihe.Util.RabbitMq.PushMsgProducer;
-import com.web.guihe.Util.RabbitMq.WiselyMessage;
-import com.web.guihe.Util.Redis.RedisUtil;
 import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+/**
+ * 用户
+ */
 @RestController
 @RequestMapping("/user")
 public class GhUserController {
 
     @Autowired
     private GhUserService ghUserService;
-
-    @Autowired
-    private GhRoleService ghRoleService;
 
     @Autowired
     private ReturnResult returnResult = new ReturnResult();

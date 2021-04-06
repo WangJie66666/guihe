@@ -85,6 +85,44 @@
     c_id, c_user, c_group, c_account, c_pass, c_webaccount, c_webpass, c_phone1, c_phone2, 
     c_phone3, c_phone4, c_operator, c_num, c_state, c_b1, c_b2, c_b3, c_b4, c_b5, c_b6
   </sql>
+
+  <!-- 查询呼叫中心组别 -->
+  <select id="selectGroup" resultType="java.lang.String" >
+    select distinct gh_call_system.c_group from gh_call_system group by gh_call_system.c_id
+  </select>
+
+  <!-- 模糊查询号码 -->
+  <select id="selectPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from gh_call_system
+    where gh_call_system.c_phone1 like #{cB1,jdbcType=VARCHAR}
+    or gh_call_system.c_phone2 like #{cB1,jdbcType=VARCHAR}
+    or gh_call_system.c_phone3 like #{cB1,jdbcType=VARCHAR}
+    or gh_call_system.c_phone4 like #{cB1,jdbcType=VARCHAR}
+    </select>
+
+  <!-- 批量添加数据 -->
+  <insert id="batchAddCallSystem" parameterType="java.util.List">
+    insert into gh_call_system (c_id, c_user, c_group,
+    c_account, c_pass, c_webaccount,
+    c_webpass, c_phone1, c_phone2,
+    c_phone3, c_phone4, c_operator,
+    c_num, c_state, c_b1,c_b2,c_b3,
+    c_b4, c_b5, c_b6)
+    values
+    <foreach collection="list" separator="," item="callSystem">
+      (#{callSystem.cId},#{callSystem.cUser},#{callSystem.cGroup},#{callSystem.cAccount},#{callSystem.cPass},#{callSystem.cWebaccount},
+      #{callSystem.cWebpass},#{callSystem.cPhone1},#{callSystem.cPhone2},#{callSystem.cPhone3},#{callSystem.cPhone4},
+      #{callSystem.cOperator}, #{callSystem.cNum},#{callSystem.cState},#{callSystem.cB1},#{callSystem.cB2},
+      #{callSystem.cB3},#{callSystem.cB4},#{callSystem.cB5},#{callSystem.cB6})
+    </foreach>
+  </insert>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.guihe.Entity.GhCallSystemExample" >
     select
     <if test="distinct" >

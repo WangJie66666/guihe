@@ -31,7 +31,8 @@
     SELECT gh_role.r_name,gh_role.r_remarks,GROUP_CONCAT(gh_permissions.p_name) as permissions_list FROM gh_role
     INNER JOIN gh_role_permissions ON gh_role.r_id = gh_role_permissions.a_r_id
     INNER JOIN gh_permissions ON gh_role_permissions.a_p_id = gh_permissions.p_id
-    WHERE  gh_role.r_id = 1 GROUP BY gh_role.r_id;
+    WHERE  gh_role.r_id = #{rId,jdbcType=INTEGER}
+    GROUP BY gh_role.r_id;
   </select>
 
   <sql id="Example_Where_Clause" >

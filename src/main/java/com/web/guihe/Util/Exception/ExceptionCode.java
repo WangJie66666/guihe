@@ -30,7 +30,10 @@ public enum  ExceptionCode {
     LOGIN_NO_ERROR(456,"您还未登录,请登录!"),
 
     //无权限
-    ROLE_NO_ERROR(457,"您没有权限访问!");
+    ROLE_NO_ERROR(457,"抱歉,您没有权限访问或修改!"),
+
+    //导入表无数据
+    EXCEL_NO_DATA(457,"抱歉,您上传的表无数据，请上传有效表!");
 
 
     private Integer code;

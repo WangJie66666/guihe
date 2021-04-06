@@ -1,44 +1,70 @@
 package com.web.guihe.Entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Data;
+
+@Data
+
 public class GhCallSystem {
+    @ExcelIgnore
     private Integer cId;
 
+    @ExcelProperty(value = "使用人",index = 7)
     private String cUser;
 
+    @ExcelProperty(value = "所属组",index = 8)
     private String cGroup;
 
+    @ExcelProperty(value = "分机号",index = 1)
     private String cAccount;
 
+    @ExcelProperty(value = "分机密码",index = 2)
     private String cPass;
 
+    @ExcelProperty(value = "网页端账号",index = 9)
     private String cWebaccount;
 
+    @ExcelProperty(value = "网页端密码",index = 10)
     private String cWebpass;
 
+    @ExcelProperty(value = "号码1",index = 3)
     private String cPhone1;
 
+    @ExcelProperty(value = "号码2",index = 4)
     private String cPhone2;
 
+    @ExcelProperty(value = "号码3",index = 5)
     private String cPhone3;
 
+    @ExcelProperty(value = "号码4",index = 6)
     private String cPhone4;
 
+    @ExcelIgnore
     private Integer cOperator;
 
+    @ExcelProperty(value = "呼叫中心编号",index = 0)
     private Integer cNum;
 
+    @ExcelIgnore
     private Integer cState;
 
+    @ExcelIgnore
     private String cB1;
 
+    @ExcelIgnore
     private String cB2;
 
+    @ExcelIgnore
     private String cB3;
 
+    @ExcelIgnore
     private Integer cB4;
 
+    @ExcelIgnore
     private Integer cB5;
 
+    @ExcelIgnore
     private Integer cB6;
 
     public Integer getcId() {

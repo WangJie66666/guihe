@@ -62,7 +62,7 @@ public class RealmPassword extends AuthorizingRealm {
                 ghUserMapper.updateByPrimaryKey(user);
                 throw new BusinessRuntimeException(ExceptionCode.USER_PASSWORD_ERROR_THREE);
             }else {
-                throw new BusinessRuntimeException(ExceptionCode.FOUR_ONE_ERROR);
+                throw new BusinessRuntimeException(ExceptionCode.USER_PASSWORD_ERROR_THREE);
             }
         }
         AuthenticationInfo info = null;
