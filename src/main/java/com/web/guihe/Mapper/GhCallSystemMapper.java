@@ -6,6 +6,7 @@ import com.web.guihe.Entity.GhCallSystemExample;
 import java.util.Calendar;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +34,7 @@ public interface GhCallSystemMapper {
     int updateByPrimaryKey(GhCallSystem record);
 
     // 查询呼叫中心组别
-    List<String> selectGroup();
+    List<String> selectGroup(Integer cNum);
 
     // 模糊查询号码
     List<GhCallSystem> selectPhone(String cB1);

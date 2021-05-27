@@ -9,8 +9,7 @@ import com.web.guihe.Util.BasicUtil.PassCommon;
 import com.web.guihe.Util.Exception.BusinessRuntimeException;
 import com.web.guihe.Util.Exception.ExceptionCode;
 import com.web.guihe.Util.BasicUtil.ReturnResult;
-import com.web.guihe.Util.RabbitMq.PushMsgProducer;
-import com.web.guihe.Util.RabbitMq.WiselyMessage;
+import com.web.guihe.Util.Mqtt.MqttPushClient;
 import com.web.guihe.Util.Redis.RedisUtil;
 import com.web.guihe.Util.Shiro.Token.CustomizedToken;
 import com.web.guihe.Util.Shiro.Token.JwtUtil;
@@ -43,10 +42,7 @@ public class GhUserService {
     private RedisUtil redisUtil = new RedisUtil();
 
     @Autowired
-    private WiselyMessage wiselyMessage;
-
-    @Autowired
-    private PushMsgProducer pushMsgProducer;
+    private MqttPushClient mqttPushClient;
 
     /**
      * 用户登录
@@ -64,8 +60,7 @@ public class GhUserService {
         // 若登陆成功返回相关token
         String token = JwtUtil.sign(user);
         redisUtil.setCacheObject(user.getuUser(),token);
-        wiselyMessage.back(redisUtil.getCacheObject(user.getuUser()),"rk_GUIHEMSG",null);
-        pushMsgProducer.send(wiselyMessage);
+        mqttPushClient.publish(1,false,"key_login","我是一个大帅哥");
         returnResult.back(1,user,token);
         return returnResult;
     }

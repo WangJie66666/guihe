@@ -30,6 +30,12 @@ public class CallSystemUtil extends GhCallSystem {
     //下一页
     private int nextPage;
 
+    private GhCallSystem ghCallSystem;
+
+    public GhCallSystem getGhCallSystem() { return ghCallSystem; }
+
+    public void setGhCallSystem(GhCallSystem ghCallSystem) { this.ghCallSystem = ghCallSystem; }
+
     public int getPageNum() {
         return pageNum;
     }

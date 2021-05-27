@@ -6,7 +6,6 @@ import com.web.guihe.Util.BasicUtil.PassCommon;
 import com.web.guihe.Util.Exception.BusinessRuntimeException;
 import com.web.guihe.Util.Exception.ExceptionCode;
 import com.web.guihe.Util.Exception.GlobaExceptionHandler;
-import com.web.guihe.Util.RabbitMq.WiselyMessage;
 import com.web.guihe.Util.Shiro.Token.CustomizedToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;

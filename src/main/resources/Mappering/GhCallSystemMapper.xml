@@ -87,8 +87,10 @@
   </sql>
 
   <!-- 查询呼叫中心组别 -->
-  <select id="selectGroup" resultType="java.lang.String" >
-    select distinct gh_call_system.c_group from gh_call_system group by gh_call_system.c_id
+  <select id="selectGroup" resultType="java.lang.String" parameterType="java.lang.Integer">
+    select distinct gh_call_system.c_group from gh_call_system
+    where gh_call_system.c_num = #{cNum,jdbcType=INTEGER}
+    group by gh_call_system.c_id
   </select>
 
   <!-- 模糊查询号码 -->

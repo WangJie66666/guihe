@@ -45,6 +45,14 @@ spring:
         max-wait: -1ms
         max-idle: 8
         min-idle: 0
+  mqtt:
+    username: admin
+    password: 621041`h
+    url: tcp://192.168.113.25:1883
+    clientID: guihe
+    default-topic: home
+    timeout: 100
+    keepalive: 100
 mybatis:
   mapper-locations: classpath:mappering/*.xml
   type-aliases-package: com.web.guihe.Entity

@@ -1,6 +1,5 @@
 package com.web.guihe.Service;
 
-import com.alibaba.excel.EasyExcel;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.web.guihe.Entity.GhCallSystem;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +36,7 @@ public class GhCallSystemService {
      * @param callSystemUtil
      * @return
      */
-    public ReturnResult  pageCallSystem(CallSystemUtil callSystemUtil){
+    public ReturnResult pageCallSystem(CallSystemUtil callSystemUtil){
         PageHelper.startPage(callSystemUtil.getPageNum(),callSystemUtil.getPageSize());
         GhCallSystemExample callSystemExample = new GhCallSystemExample();
         GhCallSystemExample.Criteria criteria = callSystemExample.createCriteria();
@@ -84,8 +84,8 @@ public class GhCallSystemService {
      * 呼叫中心组别
      * @return
      */
-    public ReturnResult selectGroup(){
-        List<String> list1 = ghCallSystemMapper.selectGroup();
+    public ReturnResult selectGroup(Integer cNum){
+        List<String> list1 = ghCallSystemMapper.selectGroup(cNum);
         List<String> list2 = new ArrayList<>();
         list2.add("全部");
         list2.add("空白");
@@ -124,4 +124,32 @@ public class GhCallSystemService {
         }
     }
 
+    /**
+     * 根据呼叫中心id查询信息
+     * @param cId
+     * @return
+     */
+    public ReturnResult selectByPrimaryKey(Integer cId){
+        GhCallSystem ghCallSystem = ghCallSystemMapper.selectByPrimaryKey(cId);
+        returnResult.success(ghCallSystem);
+        return returnResult;
+    }
+
+    /**
+     * 呼叫中心编辑/添加
+     * @param callSystemUtil
+     * @return
+     */
+    public ReturnResult updateCallSystem( CallSystemUtil callSystemUtil) throws IOException {
+        if(callSystemUtil.getGhCallSystem().getcId() != null && !"".equals(callSystemUtil.getGhCallSystem().getcId())){
+            if("空白".equals(callSystemUtil.getGhCallSystem().getcGroup())){
+                callSystemUtil.getGhCallSystem().setcGroup("");
+            }
+            ghCallSystemMapper.updateByPrimaryKeySelective(callSystemUtil.getGhCallSystem());
+            returnResult.success("编辑成功!");
+        }else{
+
+        }
+        return  returnResult;
+    }
 }
